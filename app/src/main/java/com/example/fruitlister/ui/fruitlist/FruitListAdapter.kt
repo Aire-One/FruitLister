@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fruitlister.BR
 import com.example.fruitlister.R
 import com.example.fruitlister.data.entities.Fruit
 import com.example.fruitlister.ui.MainActivity
@@ -35,26 +37,33 @@ class FruitListAdapter(private val parentActivity: MainActivity, private val val
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parentActivity)
-            .inflate(R.layout.fruit_list_content, parent, false)
-        return ViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+            layoutInflater,
+            R.layout.fruit_list_content,
+            parent,
+            false
+        )
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = item.id.toString()
-        holder.contentView.text = item.name
+        val fruit = values[position]
+        holder.bind(fruit)
 
         with(holder.itemView) {
-            tag = item
+            tag = fruit
             setOnClickListener(onClickListener)
         }
     }
 
     override fun getItemCount() = values.size
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.findViewById(R.id.id_text)
-        val contentView: TextView = view.findViewById(R.id.content)
+    inner class ViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(fruit: Fruit?) {
+            binding.setVariable(BR.fruit, fruit)
+            binding.executePendingBindings()
+        }
     }
+
 }

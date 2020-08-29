@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.fruitlister.R
 import com.example.fruitlister.data.entities.Fruit
+import com.example.fruitlister.databinding.FragmentFruitDetailBinding
 import com.example.fruitlister.dummy.DummyContent
+
 
 class FruitDetailFragment : Fragment() {
 
@@ -17,14 +19,14 @@ class FruitDetailFragment : Fragment() {
         const val ARG_ITEM_ID = "item_id"
     }
 
-    private var item: Fruit? = null
+    private var fruit: Fruit? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
-                item = DummyContent.ITEM_MAP[it.getInt(ARG_ITEM_ID)]
+                fruit = DummyContent.ITEM_MAP[it.getInt(ARG_ITEM_ID)]
             }
         }
     }
@@ -34,16 +36,18 @@ class FruitDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_fruit_detail, container, false)
+        val binding: FragmentFruitDetailBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_fruit_detail,
+            container,
+            false)
 
-        item?.let {
-            rootView.findViewById<TextView>(R.id.item_detail)?.text = it.toString()
-        }
+        binding.fruit = fruit
 
         // Change the Activity toolbar title. Need to manage this with navigation component.
         //activity?.findViewById<Toolbar>(R.id.toolbar)?.title = item?.name
 
-        return rootView
+        return binding.root
     }
 
 }
