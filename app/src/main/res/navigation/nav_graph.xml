@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/fruitListFragment">
+
+    <fragment
+        android:id="@+id/fruitListFragment"
+        android:name="com.example.fruitlister.ui.fruitlist.FruitListFragment"
+        android:label="@string/title_fruit_list_fragment" >
+        <action
+            android:id="@+id/action_fruitListFragment_to_fruitDetailFragment"
+            app:destination="@id/fruitDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fruitDetailFragment"
+        android:name="com.example.fruitlister.ui.fruitdetail.FruitDetailFragment"
+        android:label="@string/title_fruit_detail_fragment" >
+        <argument
+            android:name="item_id"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+
+</navigation>

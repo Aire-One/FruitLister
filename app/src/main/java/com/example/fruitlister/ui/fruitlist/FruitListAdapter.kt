@@ -1,17 +1,17 @@
 package com.example.fruitlister.ui.fruitlist
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fruitlister.BR
 import com.example.fruitlister.R
 import com.example.fruitlister.data.entities.Fruit
 import com.example.fruitlister.ui.MainActivity
-import com.example.fruitlister.ui.fruitdetail.FruitDetailFragment
 
 class FruitListAdapter(private val parentActivity: MainActivity, private val values: List<Fruit>) :
     RecyclerView.Adapter<FruitListAdapter.ViewHolder>() {
@@ -21,18 +21,8 @@ class FruitListAdapter(private val parentActivity: MainActivity, private val val
     init {
         onClickListener = View.OnClickListener { v ->
             val item = v.tag as Fruit
-
-            val fragment = FruitDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(FruitDetailFragment.ARG_ITEM_ID, item.id)
-                }
-            }
-
-            parentActivity.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container_view, fragment)
-                .addToBackStack(null)
-                .commit()
+            val bundle = bundleOf("item_id" to item.id)
+            v.findNavController().navigate(R.id.action_fruitListFragment_to_fruitDetailFragment, bundle)
         }
     }
 
