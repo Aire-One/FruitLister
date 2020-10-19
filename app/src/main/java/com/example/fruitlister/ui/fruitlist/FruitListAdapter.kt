@@ -3,7 +3,6 @@ package com.example.fruitlister.ui.fruitlist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.findNavController
@@ -20,9 +19,9 @@ class FruitListAdapter(private val parentActivity: MainActivity, private val val
 
     init {
         onClickListener = View.OnClickListener { v ->
-            val item = v.tag as Fruit
-            val bundle = bundleOf("item_id" to item.id)
-            v.findNavController().navigate(R.id.action_fruitListFragment_to_fruitDetailFragment, bundle)
+            val fruit = v.tag as Fruit
+            val action = FruitListFragmentDirections.actionFruitListFragmentToFruitDetailFragment(fruit)
+            v.findNavController().navigate(action)
         }
     }
 

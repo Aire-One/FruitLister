@@ -19,9 +19,8 @@
         android:name="com.example.fruitlister.ui.fruitdetail.FruitDetailFragment"
         android:label="@string/title_fruit_detail_fragment" >
         <argument
-            android:name="item_id"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="fruit"
+            app:argType="com.example.fruitlister.data.entities.Fruit" />
     </fragment>
 
 </navigation>

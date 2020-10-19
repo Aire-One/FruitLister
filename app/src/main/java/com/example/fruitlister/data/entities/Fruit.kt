@@ -1,5 +1,9 @@
 package com.example.fruitlister.data.entities
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Fruit(
     val genus: String,
     val name: String,
@@ -7,7 +11,7 @@ data class Fruit(
     val family: String,
     val order: String,
     val nutritions: Nutrition
-)
+) : Parcelable
 
 /*
 {
