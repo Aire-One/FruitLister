@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.fruitlister.data.entities.Fruit
-import com.example.fruitlister.dummy.DummyContent
+import com.example.fruitlister.data.entities.Nutrition
+import java.util.*
 
 class FruitSharedViewModel : ViewModel() {
 
@@ -32,7 +33,25 @@ class FruitSharedViewModel : ViewModel() {
     private fun loadFruits() {
         val handler = Handler()
         handler.post {
-            fruits.value = DummyContent.ITEMS
+            val items: MutableList<Fruit> = ArrayList()
+            items.add(Fruit(
+                genus = "Malus",
+                name = "Apple",
+                id = 6,
+                family = "Rosaceae",
+                order = "Rosales",
+                nutritions = Nutrition(
+                    hashMapOf(
+                        "carbohydrates" to 11.4f,
+                        "protein" to 0.3f,
+                        "fat" to 0.4f,
+                        "calories" to 52f,
+                        "sugar" to 10.3f
+                    )
+                )
+            ))
+
+            fruits.value = items
         }
     }
 
