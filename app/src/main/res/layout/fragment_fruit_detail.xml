@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:name="com.example.fruitlister.ui.fruitdetail.FruitDetailFragment" >
     <data>
-        <variable name="fruit" type="com.example.fruitlister.data.entities.Fruit"/>
+        <variable name="viewmodel" type="com.example.fruitlister.ui.viewmodel.FruitSharedViewModel"/>
     </data>
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:text="@{fruit.toString()}"
+        android:text="@{viewmodel.selected.toString()}"
         android:textIsSelectable="true" />
 
 </layout>

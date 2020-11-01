@@ -1,28 +1,18 @@
 package com.example.fruitlister.ui.fruitdetail
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import com.example.fruitlister.R
-import com.example.fruitlister.data.entities.Fruit
 import com.example.fruitlister.databinding.FragmentFruitDetailBinding
+import com.example.fruitlister.ui.viewmodel.FruitSharedViewModel
 
 
 class FruitDetailFragment : Fragment() {
-
-    private val args: FruitDetailFragmentArgs by navArgs()
-
-    private var fruit: Fruit? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fruit = args.fruit
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +25,9 @@ class FruitDetailFragment : Fragment() {
             container,
             false)
 
-        binding.fruit = fruit
+        val viewModel: FruitSharedViewModel by navGraphViewModels(R.id.nested_graph)
+        binding.lifecycleOwner = this
+        binding.viewmodel = viewModel
 
         // Change the Activity toolbar title. Need to manage this with nav_graph component.
         //activity?.findViewById<Toolbar>(R.id.toolbar)?.title = item?.name
