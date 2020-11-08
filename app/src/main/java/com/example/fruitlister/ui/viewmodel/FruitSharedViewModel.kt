@@ -1,12 +1,13 @@
 package com.example.fruitlister.ui.viewmodel
 
-import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.fruitlister.data.entities.Fruit
-import com.example.fruitlister.data.entities.Nutrition
-import java.util.*
+import com.example.fruitlister.data.remote.FruitApi
+import kotlinx.coroutines.launch
 
 class FruitSharedViewModel : ViewModel() {
 
@@ -31,6 +32,22 @@ class FruitSharedViewModel : ViewModel() {
     }
 
     private fun loadFruits() {
+        viewModelScope.launch {
+            try {
+                val response = FruitApi.retrofitService.getFruits()
+
+                if (!response.isSuccessful) {
+                    throw Exception(response.code().toString() + " " + response.message())
+                }
+
+                fruits.value = response.body()
+            } catch (e: Exception) {
+                Log.d("MainActivity", "Retrofit exception")
+                Log.d("MainActivity", e.toString())
+            }
+        }
+
+        /*
         val handler = Handler()
         handler.post {
             val items: MutableList<Fruit> = ArrayList()
@@ -53,6 +70,7 @@ class FruitSharedViewModel : ViewModel() {
 
             fruits.value = items
         }
+         */
     }
 
 }
