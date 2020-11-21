@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
@@ -47,6 +48,16 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.1.0'
 
+    // Hilt
+    def hilt_version = '2.29.1-alpha'
+    def hilt_extension_version = '1.0.0-alpha02'
+
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_extension_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_extension_version"
+
+
     // Android Jetpack
     def fragment_version = "1.2.5"
     def nav_version = "2.3.1"
@@ -70,4 +81,8 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+}
+
+kapt {
+    correctErrorTypes true
 }

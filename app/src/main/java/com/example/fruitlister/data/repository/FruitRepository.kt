@@ -1,23 +1,41 @@
 package com.example.fruitlister.data.repository
 
-class FruitRepository {
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.fruitlister.data.entities.Fruit
+import com.example.fruitlister.data.remote.FruityviceService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import javax.inject.Inject
 
-    /*private val fruityviceService: FruityviceService
+class FruitRepository @Inject constructor(
+    private val fruityviceService: FruityviceService
+) {
 
-    suspend fun getFruits(): LiveData<List<Fruit>> {
+    fun getFruits(): LiveData<List<Fruit>> {
         val data = MutableLiveData<List<Fruit>>()
 
         fruityviceService.getFruits().enqueue(object : Callback<List<Fruit>> {
             override fun onResponse(call: Call<List<Fruit>>, response: Response<List<Fruit>>) {
-                data.value = response.body()
+                if (response.isSuccessful) {
+                    data.value = response.body()
+                } else {
+                    Log.d("MainActivity", "Repository error on retrofit response")
+                    Log.d("MainActivity", response.code().toString())
+                    Log.d("MainActivity", response.errorBody().toString())
+                    Log.d("MainActivity", response.message())
+                }
             }
 
             override fun onFailure(call: Call<List<Fruit>>, t: Throwable) {
-                Log.e("FruitRepository", "Error on Fruityvice API call")
-                throw t
+                Log.d("MainActivity", "repository error on retrofit network")
+                Log.e("FruitRepository", t.message.toString())
             }
         })
+
         return data
-    }*/
+    }
 
 }

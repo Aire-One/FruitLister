@@ -10,9 +10,14 @@ import androidx.navigation.navGraphViewModels
 import com.example.fruitlister.R
 import com.example.fruitlister.databinding.FragmentFruitDetailBinding
 import com.example.fruitlister.ui.viewmodel.FruitSharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class FruitDetailFragment : Fragment() {
+
+    private val viewModel: FruitSharedViewModel by navGraphViewModels(R.id.nested_graph) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +30,6 @@ class FruitDetailFragment : Fragment() {
             container,
             false)
 
-        val viewModel: FruitSharedViewModel by navGraphViewModels(R.id.nested_graph)
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
 

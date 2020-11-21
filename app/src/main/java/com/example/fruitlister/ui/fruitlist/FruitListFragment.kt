@@ -13,8 +13,14 @@ import com.example.fruitlister.R
 import com.example.fruitlister.data.entities.Fruit
 import com.example.fruitlister.ui.MainActivity
 import com.example.fruitlister.ui.viewmodel.FruitSharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FruitListFragment : Fragment() {
+
+    private val viewModel: FruitSharedViewModel by navGraphViewModels(R.id.nested_graph) {
+        defaultViewModelProviderFactory
+    }
 
     companion object {
         fun newInstance(): FruitListFragment {
@@ -31,9 +37,8 @@ class FruitListFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.item_list)
 
-        val viewModel: FruitSharedViewModel by navGraphViewModels(R.id.nested_graph)
         viewModel.getFruits().observe(viewLifecycleOwner, Observer<List<Fruit>>{ fruits ->
-            recyclerView.adapter = FruitListAdapter(activity as MainActivity, fruits) {
+            recyclerView.adapter = FruitListAdapter(activity as MainActivity, fruits.sortedBy { it.id }) {
                 viewModel.select(it)
                 findNavController().navigate(R.id.action_fruitListFragment_to_fruitDetailFragment)
             }

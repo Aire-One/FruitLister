@@ -1,17 +1,17 @@
 package com.example.fruitlister.data.remote
 
 import com.example.fruitlister.data.entities.Fruit
-import retrofit2.Response
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface FruityviceService {
 
     @GET("api/fruit/all")
-    suspend fun getFruits() : Response<List<Fruit>>
+    fun getFruits() : Call<List<Fruit>>
 
     @GET("api/fruit/{id}")
-    suspend fun getFruit(@Path("id") id: Int): Response<Fruit>
+    fun getFruit(@Path("id") id: Int): Call<Fruit>
 
 
     companion object {
