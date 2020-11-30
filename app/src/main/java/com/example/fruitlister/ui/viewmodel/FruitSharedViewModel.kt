@@ -2,15 +2,13 @@ package com.example.fruitlister.ui.viewmodel
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.fruitlister.data.entities.Fruit
 import com.example.fruitlister.data.repository.FruitRepository
+import kotlinx.coroutines.launch
 
 class FruitSharedViewModel @ViewModelInject constructor(
-    repository: FruitRepository,
+    private val repository: FruitRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -19,6 +17,11 @@ class FruitSharedViewModel @ViewModelInject constructor(
     private val selected = MutableLiveData<Fruit>()
 
     fun getFruits(): LiveData<List<Fruit>> {
+
+        viewModelScope.launch {
+            repository.refreshFruits()
+        }
+
         return fruits
     }
 
@@ -26,8 +29,6 @@ class FruitSharedViewModel @ViewModelInject constructor(
         selected.value = item
     }
 
-    fun getSelected(): LiveData<Fruit> {
-        return selected
-    }
+    fun getSelected(): LiveData<Fruit> = selected
 
 }

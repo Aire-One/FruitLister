@@ -1,11 +1,14 @@
 package com.example.fruitlister.di
 
+import android.content.Context
+import com.example.fruitlister.data.local.AppDatabase
 import com.example.fruitlister.data.remote.FruityviceService
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -26,5 +29,13 @@ class AppModule {
 
     @Provides
     fun provideFruityviceService(retrofit: Retrofit): FruityviceService = retrofit.create(FruityviceService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase = AppDatabase.getDatabase(appContext)
+
+    @Singleton
+    @Provides
+    fun provideFruitDao(db: AppDatabase) = db.FruitDao()
 
 }
